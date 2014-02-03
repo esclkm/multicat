@@ -28,15 +28,3 @@
 
 defined('COT_CODE') or die('Wrong URL');
 
-$db_multicat = !empty($db_multicat) ? $db_multicat : $db_x.'multicat';
-
-if($action == 'install' && $z == 'admin')
-{
-    $db->query( "CREATE TABLE IF NOT EXISTS $db_multicat (
-        `mc_id` INT(12) NOT NULL AUTO_INCREMENT,
-        `mc_pageid` INT(12),
-        `mc_pagecat` VARCHAR(256) NOT NULL,
-        PRIMARY KEY (mc_id)
-        );");
-}
-?>
