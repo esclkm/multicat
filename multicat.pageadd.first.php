@@ -15,18 +15,15 @@
 
 defined('COT_CODE') or die('Wrong URL');
 
-$db_multicat = !empty($db_multicat) ? $db_multicat : $db_x.'multicat';
+cot::$db->registerTable('multicat');
 
 global $pagemulticat;
 $pagemulticat = cot_import('pagemulticat','P','ARR');
 
-$newpagecat = cot_import('newpagecat','P','TXT');
 $rpagecat = cot_import('rpagecat','P','TXT');
 
 if(is_array($pagemulticat))
 {
 	$pagemulticat = array_unique($pagemulticat);
-	$pagemulticat = array_diff($pagemulticat,array($newpagecat, $rpagecat, ''));
+	$pagemulticat = array_diff($pagemulticat,array($rpagecat, ''));
 }
-
-?>

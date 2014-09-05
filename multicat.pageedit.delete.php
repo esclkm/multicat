@@ -18,5 +18,3 @@ defined('COT_CODE') or die('Wrong URL');
 $db_multicat = !empty($db_multicat) ? $db_multicat : $db_x.'multicat';
 
 $db->query("DELETE FROM $db_multicat WHERE mc_pageid='$id'");
-
-?>

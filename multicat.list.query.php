@@ -16,22 +16,15 @@
  */
 
 defined('COT_CODE') or die('Wrong URL');
-
-$db_multicat = !empty($db_multicat) ? $db_multicat : $db_x.'multicat';
+// Tables and extras
+cot::$db->registerTable('multicat');
 
 $multicatwhere = str_replace('page_cat', 'mc_pagecat', $where['cat']);
 
-$sql_mc = $db->query("SELECT mc_pageid FROM $db_multicat WHERE $multicatwhere");
-$pageidin = array();
-while ($pag_mc = $sql_mc->fetch())
-{
-	$pageidin[] = (int)$pag_mc['mc_pageid'];
-}
+$pageidin = $db->query("SELECT mc_pageid FROM $db_multicat WHERE $multicatwhere")->fetchAll(PDO::FETCH_COLUMN, 0);
 
-if (count($pageidin) > 0)
+if (is_array($pageidin) && count($pageidin) > 0)
 {
 	$pageidins = " page_id IN (".implode(", ", $pageidin).")";
 	$where['cat'] = "(" . $where['cat'] . " OR " . $pageidins . ")";
 }
-
-?>

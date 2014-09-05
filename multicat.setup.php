@@ -5,8 +5,8 @@
  * Code=multicat
  * Name=Multicat
  * Description=Multicat for shop plug
- * Version=1.0
- * Date=2010-Dec-20
+ * Version=2.5
+ * Date=2014-Sep-05
  * Author=esclkm, http://www.littledev.ru
  * Copyright=(с) 2010 esclkm, http://www.littledev.ru
  * Notes=

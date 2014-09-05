@@ -2,9 +2,9 @@
 
 /* ====================
  * [BEGIN_COT_EXT]
- * Hooks=page.add.tags
+ * Hooks=page.add.tags,page.edit.tags
  * Order=10
- * Tags=page.add.tpl:{MULTICAT_SELECTOR}
+ * Tags=page.add.tpl:{PAGEADD_FORM_MULTICAT};page.edit.tpl:{PAGEEDIT_FORM_MULTICAT};
  * [END_COT_EXT]
 ==================== */
 /**
@@ -16,37 +16,39 @@
  */
 defined('COT_CODE') or die('Wrong URL');
 
-$db_multicat = !empty($db_multicat) ? $db_multicat : $db_x.'multicat';
+cot::$db->registerTable('multicat');
+
+
+$t_mc = new XTemplate(cot_tplfile('multicat.pageadd.tags', 'plug'));
+
+if ((int) $id > 0)
+{
+	$pr = 'EDIT';
+}
+else
+{
+	$pr = 'ADD';
+}
 
 if (is_array($pagemulticat))
 {
 	foreach ($pagemulticat as $pagemcat)
 	{
-		$page_form_mcategories .= '<div class="multicat">' . cot_selectbox_structure('page', $pagemcat, 'pagemulticat[]') . '<input name="deloption" value="x" type="button" class="delcat" style="display:none;" />
-</div>';
+		$t_mc->assign('CATSELECT', cot_selectbox_structure('page', $pagemcat, 'pagemulticat[]'));
+		$t_mc->parse('MAIN.ROW');
 	}
 }
-
-$t->assign('MULTICAT_SELECTOR', $page_form_mcategories . '
-<div class="multicat" style="display:none;">' . cot_selectbox_structure('page', $pagemcat, 'pagemulticatsimple') . '<input name="deloption" value="x" type="button" class="delcat" style="display:none;" />
-</div><input id="addcat" name="addcat" value="' . $L['Add'] . '" type="button" style="display:none;" />	
-<script type="text/javascript">
-$(".delcat").live("click",function () {
-	$(this).parent().children("select").attr("name", "pagemulticat[]");
-	if ($(".multicat").length > 1)
+elseif ((int) $id > 0)
+{
+	$sql_mc = $db->query("SELECT mc_pagecat FROM $db_multicat WHERE mc_pageid='$id'");
+	while ($pag_mc = $sql_mc->fetch())
 	{
-		$(this).parent().remove();
+		$t_mc->assign('CATSELECT', cot_selectbox_structure('page', $pag_mc['mc_pagecat'], 'pagemulticat[]'));
+		$t_mc->parse('MAIN.ROW');
 	}
-	return false;
-});
-
-$(document).ready(function(){
-	$("#addcat").click(function () {
-	$(".multicat").last().clone().insertAfter($(".multicat").last()).show().children("select").attr("name","pagemulticat[]");
-	return false;
-	});
-	$("#addcat").show();
-	$(".delcat").show();
-});
-</script>');
-?>
+}
+$t_mc->assign('CATSELECT', cot_selectbox_structure('page', $pagemcat, 'pagemulticatsimple'));
+$t_mc->assign('STYLE', 'style="display:none"');
+$t_mc->parse('MAIN.ROW');
+$t_mc->parse('MAIN');
+$t->assign('PAGE'.$pr.'_FORM_MULTICAT', $t_mc->text('MAIN'));

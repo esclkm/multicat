@@ -14,7 +14,7 @@
 
 defined('COT_CODE') or die('Wrong URL');
 
-$db_multicat = !empty($db_multicat) ? $db_multicat : $db_x.'multicat';
+cot::$db->registerTable('multicat');
 
 global $pagemulticat;
 
@@ -28,5 +28,3 @@ if (is_array($pagemulticat))
 		$db->query("INSERT INTO $db_multicat (mc_pageid, mc_pagecat) VALUES (".(int)$id.", '".$db->prep($pagemcat)."')");
 	}
 }
-
-?>
