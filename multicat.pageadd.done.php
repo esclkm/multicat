@@ -16,7 +16,7 @@ defined('COT_CODE') or die('Wrong URL');
 
 cot::$db->registerTable('multicat');
 
-global $pagemulticat;
+global $pagemulticat, $db_multicat;
 
 $db->query("DELETE FROM $db_multicat WHERE mc_pageid='$id'");
 

@@ -16,8 +16,8 @@
 defined('COT_CODE') or die('Wrong URL');
 
 cot::$db->registerTable('multicat');
+global $pagemulticat, $db_multicat;
 
-global $pagemulticat;
 $pagemulticat = cot_import('pagemulticat','P','ARR');
 
 $rpagecat = cot_import('rpagecat','P','TXT');

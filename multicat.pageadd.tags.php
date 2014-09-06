@@ -17,7 +17,7 @@
 defined('COT_CODE') or die('Wrong URL');
 
 cot::$db->registerTable('multicat');
-
+global $db_multicat;
 
 $t_mc = new XTemplate(cot_tplfile('multicat.pageadd.tags', 'plug'));
 
